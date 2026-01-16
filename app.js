@@ -26,6 +26,7 @@ let map = null;
 let routeData = null;
 let rowingData = [];
 let boatMarker = null;
+let routeLines = { completed: null, remaining: null };
 let dataSource = "local";
 
 // Initialize app
@@ -50,8 +51,8 @@ function initMap() {
     maxZoom: 18
   }).addTo(map);
 
-  // Default view (Sweden)
-  map.setView([62.5, 18.5], 6);
+  // Default view (Österled overview)
+  map.setView([55, 25], 4);
 }
 
 // Load route data
@@ -72,13 +73,6 @@ function drawRoute() {
 
   const coords = routeData.stops.map(stop => [stop.lat, stop.lon]);
 
-  // Draw polyline
-  L.polyline(coords, {
-    color: "#e94560",
-    weight: 4,
-    opacity: 0.8
-  }).addTo(map);
-
   // Add stop markers
   routeData.stops.forEach((stop, index) => {
     const isStart = index === 0;
@@ -97,11 +91,77 @@ function drawRoute() {
       ${stop.cum_km} km från start
       ${isStart ? "<br><em>(Start)</em>" : ""}
       ${isEnd ? "<br><em>(Mål)</em>" : ""}
+      ${stop.info ? `<br><small>${stop.info}</small>` : ""}
     `);
   });
 
   // Fit map to route
   map.fitBounds(coords, { padding: [50, 50] });
+}
+
+// Update route lines based on progress (green = completed, red = remaining)
+function updateRouteLines(totalKm) {
+  if (!routeData || !routeData.stops) return;
+
+  // Remove existing lines
+  if (routeLines.completed) {
+    map.removeLayer(routeLines.completed);
+  }
+  if (routeLines.remaining) {
+    map.removeLayer(routeLines.remaining);
+  }
+
+  const stops = routeData.stops;
+  const completedCoords = [];
+  const remainingCoords = [];
+
+  // Find current position
+  const segment = getCurrentSegment(totalKm);
+  let currentPos = null;
+
+  if (segment) {
+    currentPos = interpolatePosition(segment.from, segment.to, segment.progress);
+  }
+
+  // Build completed and remaining coordinate arrays
+  for (let i = 0; i < stops.length; i++) {
+    const stop = stops[i];
+
+    if (totalKm >= stop.cum_km) {
+      // This stop is completed
+      completedCoords.push([stop.lat, stop.lon]);
+    } else {
+      // This stop is remaining
+      if (remainingCoords.length === 0 && currentPos) {
+        // Add current position as start of remaining
+        remainingCoords.push([currentPos.lat, currentPos.lon]);
+      }
+      remainingCoords.push([stop.lat, stop.lon]);
+    }
+  }
+
+  // Add current position to end of completed coords
+  if (currentPos && completedCoords.length > 0) {
+    completedCoords.push([currentPos.lat, currentPos.lon]);
+  }
+
+  // Draw completed line (green)
+  if (completedCoords.length >= 2) {
+    routeLines.completed = L.polyline(completedCoords, {
+      color: "#2ecc71",
+      weight: 5,
+      opacity: 0.9
+    }).addTo(map);
+  }
+
+  // Draw remaining line (red)
+  if (remainingCoords.length >= 2) {
+    routeLines.remaining = L.polyline(remainingCoords, {
+      color: "#e94560",
+      weight: 4,
+      opacity: 0.7
+    }).addTo(map);
+  }
 }
 
 // Load rowing data from Google Sheets or local fallback
@@ -285,6 +345,9 @@ function updateUI() {
 
   // Update sessions list
   updateSessionsList();
+
+  // Update route lines (green/red)
+  updateRouteLines(totalKm);
 
   // Update boat position
   updateBoatPosition(totalKm);
