@@ -166,28 +166,50 @@ function updateRouteLines(totalKm) {
 
 // Load rowing data from Google Sheets or local fallback
 async function loadRowingData() {
+  let baseData = [];
+
   // Try Google Sheets first
   if (CONFIG.googleSheetUrl) {
     try {
       const data = await fetchGoogleSheet(CONFIG.googleSheetUrl);
       if (data && data.length > 0) {
-        rowingData = data;
+        baseData = data;
         dataSource = "Google Sheets";
-        return;
       }
     } catch (error) {
       console.warn("Google Sheets failed, trying local fallback:", error);
     }
   }
 
-  // Fallback to local JSON
+  // Fallback to local JSON if no Google Sheets data
+  if (baseData.length === 0) {
+    try {
+      const response = await fetch(CONFIG.localDataUrl);
+      baseData = await response.json();
+      dataSource = "lokal fil";
+    } catch (error) {
+      console.error("Failed to load rowing data:", error);
+      showError("Kunde inte ladda rodddata");
+    }
+  }
+
+  // Merge with localStorage entries
+  const localEntries = getLocalStorageEntries();
+  if (localEntries.length > 0) {
+    rowingData = [...baseData, ...localEntries];
+    dataSource += ` + ${localEntries.length} lokala`;
+  } else {
+    rowingData = baseData;
+  }
+}
+
+// Get entries from localStorage
+function getLocalStorageEntries() {
   try {
-    const response = await fetch(CONFIG.localDataUrl);
-    rowingData = await response.json();
-    dataSource = "lokal fil";
-  } catch (error) {
-    console.error("Failed to load rowing data:", error);
-    showError("Kunde inte ladda rodddata");
+    const data = localStorage.getItem('miklagaard_local_rows');
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
   }
 }
 

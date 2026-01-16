@@ -175,6 +175,23 @@ header h1::before {
   flex: 1;
 }
 
+.add-session-btn {
+  display: block;
+  text-align: center;
+  background: #e94560;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  transition: background 0.2s;
+}
+
+.add-session-btn:hover {
+  background: #d63850;
+}
+
 /* Viking marker */
 .viking-marker {
   background: transparent;
