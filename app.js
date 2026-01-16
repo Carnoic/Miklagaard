@@ -11,13 +11,33 @@ const CONFIG = {
   routeUrl: "data/route.json"
 };
 
-// Viking boat SVG icon
+// Viking longship SVG icon
 const vikingSvg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 64 64">
-  <path d="M14 28 C14 18, 22 10, 32 10 C42 10, 50 18, 50 28 L50 40 C50 50, 42 56, 32 56 C22 56, 14 50, 14 40 Z" fill="#111"/>
-  <path d="M20 30 C20 24, 25 20, 32 20 C39 20, 44 24, 44 30 L44 40 C44 46, 39 50, 32 50 C25 50, 20 46, 20 40 Z" fill="#ddd"/>
-  <path d="M12 24 C6 22, 4 16, 8 12 C12 8, 18 10, 20 16" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-  <path d="M52 24 C58 22, 60 16, 56 12 C52 8, 46 10, 44 16" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 64 64">
+  <!-- Hull -->
+  <path d="M4 38 Q10 52, 32 52 Q54 52, 60 38 L56 36 Q50 46, 32 46 Q14 46, 8 36 Z" fill="#8B4513"/>
+  <!-- Hull stripe -->
+  <path d="M8 38 Q14 46, 32 46 Q50 46, 56 38" fill="none" stroke="#654321" stroke-width="2"/>
+  <!-- Dragon head (prow) -->
+  <path d="M4 38 Q2 34, 4 30 Q6 26, 10 24 Q8 28, 6 32 Q4 36, 4 38" fill="#654321"/>
+  <path d="M10 24 Q14 20, 12 16 Q10 18, 8 22 Q6 26, 10 24" fill="#654321"/>
+  <circle cx="11" cy="21" r="1.5" fill="#111"/>
+  <!-- Dragon tail (stern) -->
+  <path d="M60 38 Q62 34, 60 30 Q58 26, 56 24 Q60 28, 60 32 Q60 36, 60 38" fill="#654321"/>
+  <path d="M56 24 Q54 20, 58 16" fill="none" stroke="#654321" stroke-width="3" stroke-linecap="round"/>
+  <!-- Mast -->
+  <rect x="30" y="12" width="4" height="30" fill="#8B4513"/>
+  <!-- Sail -->
+  <path d="M34 14 Q48 24, 34 38 Z" fill="#c41e3a"/>
+  <path d="M30 14 Q16 24, 30 38 Z" fill="#e63946"/>
+  <!-- Sail stripes -->
+  <path d="M30 20 L34 20" stroke="#fff" stroke-width="1.5"/>
+  <path d="M28 26 L36 26" stroke="#fff" stroke-width="1.5"/>
+  <path d="M29 32 L35 32" stroke="#fff" stroke-width="1.5"/>
+  <!-- Shields on hull -->
+  <circle cx="18" cy="42" r="4" fill="#c41e3a" stroke="#ffd700" stroke-width="1"/>
+  <circle cx="32" cy="44" r="4" fill="#c41e3a" stroke="#ffd700" stroke-width="1"/>
+  <circle cx="46" cy="42" r="4" fill="#c41e3a" stroke="#ffd700" stroke-width="1"/>
 </svg>
 `;
 
