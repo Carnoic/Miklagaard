@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miklagaard - Roddresa</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="">
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>Miklagaard</h1>
+    </header>
+
+    <main class="main-content">
+      <div id="map"></div>
+
+      <aside class="sidebar">
+        <div id="error-container"></div>
+
+        <section class="stats">
+          <h2>Progress</h2>
+
+          <div class="stat-card">
+            <div class="label">Totalt rodd</div>
+            <div class="value"><span id="total-km">0</span> <span class="unit">km</span></div>
+          </div>
+
+          <div class="stat-card segment">
+            <div class="label">Nuvarande sträcka</div>
+            <div class="value" id="current-segment">Laddar...</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="label">Kvar till nästa stopp</div>
+            <div class="value"><span id="km-to-next">0</span> <span class="unit">km</span></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="label">Kvar till mål</div>
+            <div class="value"><span id="km-remaining">330</span> <span class="unit">km</span></div>
+          </div>
+        </section>
+
+        <section class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="progress-text">
+            <span>Start</span>
+            <span id="progress-percent">0%</span>
+            <span>Mål</span>
+          </div>
+        </section>
+
+        <section class="sessions">
+          <h2>Senaste pass</h2>
+          <ul class="session-list" id="sessions-list">
+            <li class="loading">Laddar pass...</li>
+          </ul>
+        </section>
+
+        <div class="data-source" id="data-source">Datakälla: laddar...</div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+
+  <!-- App JS -->
+  <script src="app.js"></script>
+</body>
+</html>

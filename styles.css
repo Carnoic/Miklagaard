@@ -1,0 +1,260 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #1a1a2e;
+  color: #eee;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+  padding: 1rem 1.5rem;
+  border-bottom: 2px solid #e94560;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+header h1::before {
+  content: "⛵";
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+#map {
+  flex: 1;
+  min-height: 400px;
+}
+
+.sidebar {
+  width: 340px;
+  background: #16213e;
+  padding: 1.5rem;
+  overflow-y: auto;
+  border-left: 1px solid #0f3460;
+}
+
+/* Stats section */
+.stats {
+  margin-bottom: 1.5rem;
+}
+
+.stats h2 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.stat-card {
+  background: #0f3460;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.stat-card .label {
+  font-size: 0.75rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.stat-card .value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #e94560;
+  margin-top: 0.25rem;
+}
+
+.stat-card .unit {
+  font-size: 0.9rem;
+  color: #888;
+  font-weight: 400;
+}
+
+.stat-card.segment .value {
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+/* Progress bar */
+.progress-container {
+  margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+  background: #0f3460;
+  border-radius: 10px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #e94560 0%, #ff6b6b 100%);
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+/* Sessions list */
+.sessions {
+  margin-bottom: 1rem;
+}
+
+.sessions h2 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.session-list {
+  list-style: none;
+}
+
+.session-item {
+  background: #0f3460;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.session-date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.session-meters {
+  font-weight: 600;
+  color: #e94560;
+}
+
+.session-note {
+  font-size: 0.75rem;
+  color: #aaa;
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.session-info {
+  flex: 1;
+}
+
+/* Viking marker */
+.viking-marker {
+  background: transparent;
+  border: none;
+}
+
+.viking-marker svg {
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+}
+
+/* Stop markers */
+.stop-marker {
+  background: #e94560;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  width: 14px !important;
+  height: 14px !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  color: #888;
+}
+
+.loading::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e94560;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.error {
+  background: rgba(233, 69, 96, 0.1);
+  border: 1px solid #e94560;
+  border-radius: 6px;
+  padding: 1rem;
+  color: #e94560;
+  font-size: 0.85rem;
+}
+
+/* Data source indicator */
+.data-source {
+  font-size: 0.7rem;
+  color: #666;
+  text-align: center;
+  padding: 0.5rem;
+  border-top: 1px solid #0f3460;
+  margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-height: 50vh;
+    border-left: none;
+    border-top: 1px solid #0f3460;
+  }
+
+  #map {
+    min-height: 50vh;
+  }
+}

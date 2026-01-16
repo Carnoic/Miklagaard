@@ -1,0 +1,9 @@
+{
+  "stops": [
+    { "name": "Stora Romlet", "lat": 63.693615, "lon": 20.287931, "cum_km": 0 },
+    { "name": "Gene", "lat": 63.26236, "lon": 18.696362, "cum_km": 110 },
+    { "name": "Timrådalen", "lat": 62.48694, "lon": 17.32583, "cum_km": 195 },
+    { "name": "Söderhamn", "lat": 61.30833, "lon": 17.05250, "cum_km": 275 },
+    { "name": "Hudiksvall", "lat": 61.72889, "lon": 17.11222, "cum_km": 330 }
+  ]
+}
