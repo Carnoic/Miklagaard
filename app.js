@@ -340,22 +340,40 @@ function interpolatePosition(from, to, progress) {
   };
 }
 
+// Calculate bearing between two points (in degrees)
+function calculateBearing(from, to) {
+  const lat1 = from.lat * Math.PI / 180;
+  const lat2 = to.lat * Math.PI / 180;
+  const dLon = (to.lon - from.lon) * Math.PI / 180;
+
+  const y = Math.sin(dLon) * Math.cos(lat2);
+  const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+
+  let bearing = Math.atan2(y, x) * 180 / Math.PI;
+  return (bearing + 360) % 360; // Normalize to 0-360
+}
+
 // Update boat marker position
 function updateBoatPosition(totalKm) {
   const segment = getCurrentSegment(totalKm);
   if (!segment) return;
 
   const pos = interpolatePosition(segment.from, segment.to, segment.progress);
+  const bearing = calculateBearing(segment.from, segment.to);
+
+  // Rotate SVG: bearing 0 = north, SVG ship points right (east = 90°), so subtract 90
+  const rotation = bearing - 90;
 
   const boatIcon = L.divIcon({
     className: "viking-marker",
-    html: vikingSvg,
-    iconSize: [44, 44],
-    iconAnchor: [22, 22]
+    html: `<div style="transform: rotate(${rotation}deg); transform-origin: center;">${vikingSvg}</div>`,
+    iconSize: [48, 48],
+    iconAnchor: [24, 24]
   });
 
   if (boatMarker) {
     boatMarker.setLatLng([pos.lat, pos.lon]);
+    boatMarker.setIcon(boatIcon);
   } else {
     boatMarker = L.marker([pos.lat, pos.lon], { icon: boatIcon }).addTo(map);
     boatMarker.bindPopup("Din position!");
