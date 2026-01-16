@@ -1,27 +1,47 @@
 {
   "name": "Österled till Miklagård",
-  "description": "Den historiska vikingarutten från Norrland till Konstantinopel",
+  "description": "Den historiska vikingarutten från Norrland till Konstantinopel, längs floder och handelsvägar",
   "stops": [
     { "name": "Stora Romlet", "lat": 63.693615, "lon": 20.287931, "cum_km": 0, "info": "Startpunkt vid Umeå" },
-    { "name": "Gene fornby", "lat": 63.26236, "lon": 18.696362, "cum_km": 110, "info": "Järnåldersbosättning med gravhögar från 100-600 e.Kr." },
+    { "name": "Gene fornby", "lat": 63.26236, "lon": 18.696362, "cum_km": 110, "info": "Järnåldersbosättning med gravhögar från 100-600 e.Kr. En av de äldsta kända bosättningarna i Norrland." },
     { "name": "Nordingrå", "lat": 62.9334, "lon": 18.3545, "cum_km": 160, "info": "Höga Kusten - forntida kustsamhälle" },
-    { "name": "Härnösand", "lat": 62.6323, "lon": 17.9409, "cum_km": 210, "info": "Historisk hamnstad vid Ångermanälvens mynning" },
+    { "name": "Härnösand", "lat": 62.6323, "lon": 17.9409, "cum_km": 210, "info": "Vid Ångermanälvens mynning" },
     { "name": "Sundsvall", "lat": 62.3908, "lon": 17.3069, "cum_km": 270, "info": "Vid Indalsälvens mynning" },
     { "name": "Hudiksvall", "lat": 61.7282, "lon": 17.1056, "cum_km": 340, "info": "Kustsamhälle i Hälsingland" },
     { "name": "Söderhamn", "lat": 61.3033, "lon": 17.0590, "cum_km": 390, "info": "Söderhamnsfjärden" },
     { "name": "Gävle", "lat": 60.6749, "lon": 17.1413, "cum_km": 460, "info": "Viktig handelsplats vid Gavleån" },
-    { "name": "Öregrund", "lat": 60.3297, "lon": 18.4453, "cum_km": 530, "info": "Roslagen - härifrån avseglade vikingarna österut" },
-    { "name": "Mariehamn (Åland)", "lat": 60.0971, "lon": 19.9348, "cum_km": 610, "info": "Åland - viktig anhalt mellan Sverige och Finland" },
-    { "name": "Åbo (Turku)", "lat": 60.4518, "lon": 22.2666, "cum_km": 730, "info": "Finlands äldsta stad, viktig handelsplats" },
-    { "name": "Tallinn", "lat": 59.4370, "lon": 24.7536, "cum_km": 880, "info": "Estland - viktig anhalt på vägen österut" },
-    { "name": "Staraja Ladoga", "lat": 59.9978, "lon": 32.3006, "cum_km": 1130, "info": "Aldeigjuborg - skandinavisk handelsplats grundad ~750, en av de äldsta i Rus" },
-    { "name": "Novgorod", "lat": 58.5215, "lon": 31.2694, "cum_km": 1330, "info": "Holmgård - grundat av Rurik ~860. Viktig knutpunkt för Volga- och Dneprrutterna" },
-    { "name": "Smolensk", "lat": 54.7826, "lon": 32.0453, "cum_km": 1780, "info": "Viktig stad vid övre Dneprs portage" },
-    { "name": "Kiev", "lat": 50.4501, "lon": 30.5234, "cum_km": 2280, "info": "Kænugarðr - huvudstad i Kievrus, grundad av varjager" },
-    { "name": "Kaniv", "lat": 49.7522, "lon": 31.4610, "cum_km": 2400, "info": "Viktig anhalt längs Dnepr" },
-    { "name": "Zaporizjzja", "lat": 47.8388, "lon": 35.1396, "cum_km": 2680, "info": "Området vid Dneprs farliga forsar som vikingarna drog båtarna förbi" },
-    { "name": "Dneprs mynning", "lat": 46.6186, "lon": 32.5460, "cum_km": 2930, "info": "Svarta havets kust - här utrustades skeppen med segel för havsresan" },
-    { "name": "Varna", "lat": 43.2141, "lon": 27.9147, "cum_km": 3280, "info": "Bulgariska kusten - rastplats före sista sträckan" },
-    { "name": "Miklagård", "lat": 41.0082, "lon": 28.9784, "cum_km": 3580, "info": "Konstantinopel - 'Den stora staden'. Mål för vikingarnas östliga färder och värvningsplats för Väringagardet." }
+    { "name": "Öregrund", "lat": 60.3297, "lon": 18.4453, "cum_km": 530, "info": "Roslagen - härifrån seglade vikingarna österut. Namnet 'Rus' kan härstamma från Roslagen." },
+
+    { "name": "Mariehamn (Åland)", "lat": 60.0971, "lon": 19.9348, "cum_km": 610, "info": "Åland - viktig anhalt mellan Sverige och Finland, rik på vikingatida fynd." },
+    { "name": "Åbo (Turku)", "lat": 60.4518, "lon": 22.2666, "cum_km": 730, "info": "Finlands äldsta stad vid Aura ås mynning." },
+    { "name": "Tallinn", "lat": 59.4370, "lon": 24.7536, "cum_km": 880, "info": "Estland - viktig anhalt på vägen österut." },
+
+    { "name": "Nevas mynning", "lat": 59.9425, "lon": 30.2167, "cum_km": 1050, "info": "Ingång till Nevafloden mot Ladoga. Nära dagens Sankt Petersburg." },
+    { "name": "Staraja Ladoga", "lat": 59.9978, "lon": 32.3006, "cum_km": 1180, "info": "Aldeigjuborg - grundad ~750, en av de äldsta skandinaviska bosättningarna i Rus. Viktig omlastningsplats." },
+    { "name": "Novaja Ladoga", "lat": 60.1028, "lon": 32.3156, "cum_km": 1200, "info": "Vid Volchovs utlopp i Ladogasjön." },
+    { "name": "Rurikovo Gorodishche", "lat": 58.4900, "lon": 31.3000, "cum_km": 1350, "info": "Ruriks borg - 800-talets föregångare till Novgorod, på en ö i Volchov. Skandinaviska runfynd." },
+    { "name": "Novgorod", "lat": 58.5215, "lon": 31.2694, "cum_km": 1370, "info": "Holmgård - grundat av Rurik ~860. Viktig knutpunkt där Volga- och Dneprrutterna möttes." },
+
+    { "name": "Ilmensjön", "lat": 58.2833, "lon": 31.3333, "cum_km": 1410, "info": "Stor sjö söder om Novgorod, Lovatflodens mynning." },
+    { "name": "Lovat-floden", "lat": 57.1000, "lon": 30.6000, "cum_km": 1550, "info": "Uppströms Lovat mot portaget till Dnepr." },
+    { "name": "Gnezdovo", "lat": 54.7833, "lon": 31.8833, "cum_km": 1750, "info": "Stor varjagisk handelsplats vid Dnepr, 3500+ gravhögar. Ett av Europas största vikingatida fyndställen." },
+    { "name": "Smolensk", "lat": 54.7826, "lon": 32.0453, "cum_km": 1780, "info": "Övertog Gnezdovos roll på 1000-talet. Strategisk plats vid övre Dnepr." },
+
+    { "name": "Ljubetj", "lat": 51.7167, "lon": 30.6500, "cum_km": 2050, "info": "Liubech - viktig stad längs Dnepr, nämnd i bysantinska källor." },
+    { "name": "Tjernihiv", "lat": 51.4939, "lon": 31.2947, "cum_km": 2120, "info": "Chernihiv - stor stad med skandinaviska gravfynd, viktig anhalt före Kiev." },
+    { "name": "Vyshorod", "lat": 50.5833, "lon": 30.4833, "cum_km": 2230, "info": "Vyshhorod - befäst stad strax norr om Kiev." },
+    { "name": "Kiev", "lat": 50.4501, "lon": 30.5234, "cum_km": 2280, "info": "Kænugarðr - huvudstad i Kievrus, grundad av varjager. Här samlades flottan för färden söderut i juni." },
+
+    { "name": "Vytiatjiv", "lat": 50.1500, "lon": 30.7167, "cum_km": 2350, "info": "Vitichev - samlingsplats för handelsflottan söder om Kiev." },
+    { "name": "Kaniv", "lat": 49.7522, "lon": 31.4610, "cum_km": 2470, "info": "Viktig anhalt längs Dnepr." },
+    { "name": "Dnipro", "lat": 48.4647, "lon": 35.0462, "cum_km": 2700, "info": "Nära Dneprs farliga forsar - 7 forsar på 66 km där båtarna drogs över land." },
+    { "name": "Khortytsia", "lat": 47.8517, "lon": 35.0836, "cum_km": 2780, "info": "Stor ö i Dnepr vid forsarna. Viktig rastplats och försvarsposition mot petjenegerna." },
+    { "name": "Zaporizjzja", "lat": 47.8388, "lon": 35.1396, "cum_km": 2800, "info": "Området vid Dneprs forsar - den farligaste delen av resan." },
+
+    { "name": "Dneprs mynning", "lat": 46.5000, "lon": 32.3500, "cum_km": 3000, "info": "Dnepr-Bug-estuariet. Här utrustades skeppen med segel för havsresan." },
+    { "name": "Berezan", "lat": 46.6186, "lon": 31.4083, "cum_km": 3050, "info": "Berezan-ön - viktig station där varjagerna mötte grekerna. Runsten rest av handlaren Grani till minne av Karl." },
+
+    { "name": "Varna", "lat": 43.2141, "lon": 27.9147, "cum_km": 3350, "info": "Bulgariska kusten - rastplats på vägen längs Svarta havets västkust." },
+    { "name": "Konstantinopel", "lat": 41.0136, "lon": 28.9550, "cum_km": 3500, "info": "Miklagård - 'Den stora staden'. Världens rikaste stad, mål för vikingarnas östliga färder och hem för Väringagardet." }
   ]
 }
