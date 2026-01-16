@@ -207,8 +207,12 @@ async function loadRowingData() {
 function getLocalStorageEntries() {
   try {
     const data = localStorage.getItem('miklagaard_local_rows');
-    return data ? JSON.parse(data) : [];
-  } catch {
+    console.log('localStorage data:', data);
+    const entries = data ? JSON.parse(data) : [];
+    console.log('Parsed local entries:', entries.length);
+    return entries;
+  } catch (e) {
+    console.error('Failed to read localStorage:', e);
     return [];
   }
 }
