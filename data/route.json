@@ -17,9 +17,8 @@
     { "name": "Tallinn", "lat": 59.4370, "lon": 24.7536, "cum_km": 880, "info": "Estland - viktig anhalt på vägen österut." },
 
     { "name": "Nevas mynning", "lat": 59.9425, "lon": 30.2167, "cum_km": 1050, "info": "Ingång till Nevafloden mot Ladoga. Nära dagens Sankt Petersburg." },
-    { "name": "Staraja Ladoga", "lat": 59.9978, "lon": 32.3006, "cum_km": 1180, "info": "Aldeigjuborg - grundad ~750, en av de äldsta skandinaviska bosättningarna i Rus. Viktig omlastningsplats." },
-    { "name": "Novaja Ladoga", "lat": 60.1028, "lon": 32.3156, "cum_km": 1200, "info": "Vid Volchovs utlopp i Ladogasjön." },
-    { "name": "Rurikovo Gorodishche", "lat": 58.4900, "lon": 31.3000, "cum_km": 1350, "info": "Ruriks borg - 800-talets föregångare till Novgorod, på en ö i Volchov. Skandinaviska runfynd." },
+    { "name": "Staraja Ladoga", "lat": 59.9978, "lon": 32.3006, "cum_km": 1180, "info": "Aldeigjuborg - grundad ~750, en av de äldsta skandinaviska bosättningarna i Rus. Viktig omlastningsplats vid Volchovs mynning." },
+    { "name": "Rurikovo Gorodishche", "lat": 58.4900, "lon": 31.3000, "cum_km": 1330, "info": "Ruriks borg - 800-talets föregångare till Novgorod, på en ö i Volchov. Skandinaviska runfynd." },
     { "name": "Novgorod", "lat": 58.5215, "lon": 31.2694, "cum_km": 1370, "info": "Holmgård - grundat av Rurik ~860. Viktig knutpunkt där Volga- och Dneprrutterna möttes." },
 
     { "name": "Ilmensjön", "lat": 58.2833, "lon": 31.3333, "cum_km": 1410, "info": "Stor sjö söder om Novgorod, Lovatflodens mynning." },
