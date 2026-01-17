@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistik - Miklagaard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    header a {
+      color: #e94560;
+      text-decoration: none;
+    }
+
+    header a:hover {
+      text-decoration: underline;
+    }
+
+    .card {
+      background: #16213e;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .stat-box {
+      background: #0f3460;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-box.wide {
+      grid-column: span 2;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #e94560;
+    }
+
+    .stat-value.small {
+      font-size: 1.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #888;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    .stat-sub {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .period-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .period-tab {
+      flex: 1;
+      padding: 0.75rem;
+      background: #0f3460;
+      border: none;
+      border-radius: 8px;
+      color: #888;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .period-tab.active {
+      background: #e94560;
+      color: #fff;
+    }
+
+    .period-tab:hover:not(.active) {
+      background: #1a4a7a;
+    }
+
+    .period-stats {
+      display: none;
+    }
+
+    .period-stats.active {
+      display: block;
+    }
+
+    .session-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background: #0f3460;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+
+    .session-row .label {
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+
+    .session-row .value {
+      color: #e94560;
+      font-weight: 600;
+    }
+
+    .milestone {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: #0f3460;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+
+    .milestone-icon {
+      font-size: 1.5rem;
+    }
+
+    .milestone-info {
+      flex: 1;
+    }
+
+    .milestone-name {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .milestone-distance {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .milestone-status {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .milestone-status.reached {
+      background: rgba(46, 204, 113, 0.2);
+      color: #2ecc71;
+    }
+
+    .milestone-status.upcoming {
+      background: rgba(233, 69, 96, 0.2);
+      color: #e94560;
+    }
+
+    .progress-bar-container {
+      margin-top: 1rem;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar {
+      background: #0f3460;
+      border-radius: 10px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #2ecc71 0%, #e94560 100%);
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #666;
+      padding: 2rem;
+    }
+
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 120px;
+      gap: 4px;
+      padding: 0.5rem 0;
+    }
+
+    .chart-bar-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+    }
+
+    .chart-bar {
+      width: 100%;
+      background: #e94560;
+      border-radius: 4px 4px 0 0;
+      min-height: 4px;
+      margin-top: auto;
+    }
+
+    .chart-label {
+      font-size: 0.6rem;
+      color: #666;
+      margin-top: 0.25rem;
+      text-align: center;
+    }
+
+    .chart-value {
+      font-size: 0.65rem;
+      color: #888;
+      margin-bottom: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📊 Statistik</h1>
+      <a href="index.html">← Tillbaka till kartan</a>
+    </header>
+
+    <div class="card">
+      <h2>🏆 Totalt</h2>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-value" id="total-km">0</div>
+          <div class="stat-label">Kilometer</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="total-sessions">0</div>
+          <div class="stat-label">Pass</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value small" id="avg-per-session">0</div>
+          <div class="stat-label">Snitt km/pass</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value small" id="avg-per-day">0</div>
+          <div class="stat-label">Snitt km/dag</div>
+        </div>
+        <div class="stat-box wide">
+          <div class="stat-value small" id="longest-session">0 km</div>
+          <div class="stat-label">Längsta pass</div>
+          <div class="stat-sub" id="longest-session-date"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📅 Period</h2>
+      <div class="period-tabs">
+        <button class="period-tab active" data-period="week">Denna vecka</button>
+        <button class="period-tab" data-period="month">Denna månad</button>
+        <button class="period-tab" data-period="year">I år</button>
+      </div>
+
+      <div class="period-stats active" id="period-week">
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-value small" id="week-km">0</div>
+            <div class="stat-label">Kilometer</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value small" id="week-sessions">0</div>
+            <div class="stat-label">Pass</div>
+          </div>
+        </div>
+        <div class="chart-bars" id="week-chart"></div>
+      </div>
+
+      <div class="period-stats" id="period-month">
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-value small" id="month-km">0</div>
+            <div class="stat-label">Kilometer</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value small" id="month-sessions">0</div>
+            <div class="stat-label">Pass</div>
+          </div>
+        </div>
+        <div class="chart-bars" id="month-chart"></div>
+      </div>
+
+      <div class="period-stats" id="period-year">
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-value small" id="year-km">0</div>
+            <div class="stat-label">Kilometer</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value small" id="year-sessions">0</div>
+            <div class="stat-label">Pass</div>
+          </div>
+        </div>
+        <div class="chart-bars" id="year-chart"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🎯 Milstolpar</h2>
+      <div id="milestones-list"></div>
+      <div class="progress-bar-container">
+        <div class="progress-label">
+          <span>Start</span>
+          <span id="progress-percent">0%</span>
+          <span>Miklagård</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>⏱️ Uppskattad ankomst</h2>
+      <div class="stats-grid">
+        <div class="stat-box wide">
+          <div class="stat-value small" id="eta">-</div>
+          <div class="stat-label">Beräknad ankomst till Miklagård</div>
+          <div class="stat-sub" id="eta-sub"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'miklagaard_local_rows';
+    const TOTAL_ROUTE_KM = 3500;
+
+    const MILESTONES = [
+      { km: 100, name: "100 km", icon: "🎯" },
+      { km: 250, name: "250 km", icon: "⭐" },
+      { km: 500, name: "500 km", icon: "🌟" },
+      { km: 530, name: "Öregrund - Lämnar Sverige", icon: "🇸🇪" },
+      { km: 1000, name: "1000 km", icon: "🏆" },
+      { km: 1180, name: "Staraja Ladoga", icon: "🏰" },
+      { km: 1370, name: "Novgorod (Holmgård)", icon: "🏛️" },
+      { km: 1750, name: "Gnezdovo", icon: "⚔️" },
+      { km: 2000, name: "2000 km", icon: "💪" },
+      { km: 2280, name: "Kiev (Kænugarðr)", icon: "👑" },
+      { km: 2500, name: "2500 km", icon: "🔥" },
+      { km: 3000, name: "3000 km - Svarta havet", icon: "🌊" },
+      { km: 3500, name: "Miklagård!", icon: "🎉" }
+    ];
+
+    let allSessions = [];
+
+    async function init() {
+      await loadAllData();
+      calculateStats();
+      setupTabs();
+    }
+
+    async function loadAllData() {
+      // Load from local JSON
+      try {
+        const response = await fetch('data/rows.sample.json');
+        const jsonData = await response.json();
+        allSessions = [...jsonData];
+      } catch (e) {
+        console.warn('Could not load JSON data');
+      }
+
+      // Merge with localStorage
+      try {
+        const localData = localStorage.getItem(STORAGE_KEY);
+        if (localData) {
+          const localSessions = JSON.parse(localData);
+          allSessions = [...allSessions, ...localSessions];
+        }
+      } catch (e) {
+        console.warn('Could not load localStorage data');
+      }
+
+      // Sort by date
+      allSessions.sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+
+    function calculateStats() {
+      if (allSessions.length === 0) return;
+
+      // Total stats
+      const totalMeters = allSessions.reduce((sum, s) => sum + (s.meters || 0), 0);
+      const totalKm = totalMeters / 1000;
+      const totalSessions = allSessions.length;
+
+      document.getElementById('total-km').textContent = totalKm.toFixed(1);
+      document.getElementById('total-sessions').textContent = totalSessions;
+      document.getElementById('avg-per-session').textContent = (totalKm / totalSessions).toFixed(1);
+
+      // Days since first session
+      const firstDate = new Date(allSessions[0].date);
+      const today = new Date();
+      const daysSinceStart = Math.max(1, Math.ceil((today - firstDate) / (1000 * 60 * 60 * 24)));
+      document.getElementById('avg-per-day').textContent = (totalKm / daysSinceStart).toFixed(1);
+
+      // Longest session
+      const longest = allSessions.reduce((max, s) => s.meters > max.meters ? s : max, allSessions[0]);
+      document.getElementById('longest-session').textContent = (longest.meters / 1000).toFixed(1) + ' km';
+      document.getElementById('longest-session-date').textContent = formatDate(longest.date);
+
+      // Period stats
+      calculatePeriodStats('week');
+      calculatePeriodStats('month');
+      calculatePeriodStats('year');
+
+      // Milestones
+      renderMilestones(totalKm);
+
+      // Progress
+      const progressPercent = Math.min(100, (totalKm / TOTAL_ROUTE_KM) * 100);
+      document.getElementById('progress-fill').style.width = progressPercent + '%';
+      document.getElementById('progress-percent').textContent = progressPercent.toFixed(1) + '%';
+
+      // ETA
+      calculateETA(totalKm, daysSinceStart);
+    }
+
+    function calculatePeriodStats(period) {
+      const now = new Date();
+      let startDate, sessions, chartData;
+
+      if (period === 'week') {
+        // Start of week (Monday)
+        startDate = new Date(now);
+        const day = startDate.getDay();
+        const diff = startDate.getDate() - day + (day === 0 ? -6 : 1);
+        startDate.setDate(diff);
+        startDate.setHours(0, 0, 0, 0);
+
+        sessions = allSessions.filter(s => new Date(s.date) >= startDate);
+        chartData = getWeekChartData(startDate, sessions);
+        renderChart('week-chart', chartData, ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön']);
+
+      } else if (period === 'month') {
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        sessions = allSessions.filter(s => new Date(s.date) >= startDate);
+        chartData = getMonthChartData(startDate, sessions);
+        const weekLabels = chartData.map((_, i) => 'V' + (i + 1));
+        renderChart('month-chart', chartData, weekLabels);
+
+      } else if (period === 'year') {
+        startDate = new Date(now.getFullYear(), 0, 1);
+        sessions = allSessions.filter(s => new Date(s.date) >= startDate);
+        chartData = getYearChartData(now.getFullYear(), sessions);
+        const monthLabels = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+        renderChart('year-chart', chartData, monthLabels);
+      }
+
+      const km = sessions.reduce((sum, s) => sum + (s.meters || 0), 0) / 1000;
+      document.getElementById(period + '-km').textContent = km.toFixed(1);
+      document.getElementById(period + '-sessions').textContent = sessions.length;
+    }
+
+    function getWeekChartData(startDate, sessions) {
+      const data = [0, 0, 0, 0, 0, 0, 0];
+      sessions.forEach(s => {
+        const date = new Date(s.date);
+        const dayIndex = (date.getDay() + 6) % 7; // Monday = 0
+        data[dayIndex] += s.meters / 1000;
+      });
+      return data;
+    }
+
+    function getMonthChartData(startDate, sessions) {
+      const weeks = [0, 0, 0, 0, 0];
+      sessions.forEach(s => {
+        const date = new Date(s.date);
+        const weekIndex = Math.floor((date.getDate() - 1) / 7);
+        if (weekIndex < 5) weeks[weekIndex] += s.meters / 1000;
+      });
+      return weeks;
+    }
+
+    function getYearChartData(year, sessions) {
+      const months = new Array(12).fill(0);
+      sessions.forEach(s => {
+        const date = new Date(s.date);
+        if (date.getFullYear() === year) {
+          months[date.getMonth()] += s.meters / 1000;
+        }
+      });
+      return months;
+    }
+
+    function renderChart(containerId, data, labels) {
+      const container = document.getElementById(containerId);
+      const maxValue = Math.max(...data, 1);
+
+      container.innerHTML = data.map((value, i) => {
+        const height = (value / maxValue) * 100;
+        return `
+          <div class="chart-bar-container">
+            <div class="chart-value">${value > 0 ? value.toFixed(0) : ''}</div>
+            <div class="chart-bar" style="height: ${Math.max(height, 4)}%"></div>
+            <div class="chart-label">${labels[i]}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderMilestones(totalKm) {
+      const container = document.getElementById('milestones-list');
+
+      container.innerHTML = MILESTONES.map(m => {
+        const reached = totalKm >= m.km;
+        const kmLeft = m.km - totalKm;
+        return `
+          <div class="milestone">
+            <div class="milestone-icon">${m.icon}</div>
+            <div class="milestone-info">
+              <div class="milestone-name">${m.name}</div>
+              <div class="milestone-distance">${m.km} km</div>
+            </div>
+            <div class="milestone-status ${reached ? 'reached' : 'upcoming'}">
+              ${reached ? '✓ Nådd' : kmLeft.toFixed(0) + ' km kvar'}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function calculateETA(totalKm, daysSinceStart) {
+      const kmPerDay = totalKm / daysSinceStart;
+      const kmRemaining = TOTAL_ROUTE_KM - totalKm;
+
+      if (kmPerDay <= 0 || kmRemaining <= 0) {
+        document.getElementById('eta').textContent = kmRemaining <= 0 ? 'Framme!' : '-';
+        document.getElementById('eta-sub').textContent = '';
+        return;
+      }
+
+      const daysRemaining = Math.ceil(kmRemaining / kmPerDay);
+      const etaDate = new Date();
+      etaDate.setDate(etaDate.getDate() + daysRemaining);
+
+      document.getElementById('eta').textContent = formatDate(etaDate);
+      document.getElementById('eta-sub').textContent = `${daysRemaining} dagar kvar (${kmPerDay.toFixed(1)} km/dag)`;
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('sv-SE', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    }
+
+    function setupTabs() {
+      document.querySelectorAll('.period-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.period-stats').forEach(s => s.classList.remove('active'));
+
+          tab.classList.add('active');
+          document.getElementById('period-' + tab.dataset.period).classList.add('active');
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

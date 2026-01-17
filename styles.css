@@ -192,6 +192,24 @@ header h1::before {
   background: #d63850;
 }
 
+.stats-link {
+  display: block;
+  text-align: center;
+  color: #888;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  transition: all 0.2s;
+  border: 1px solid #0f3460;
+}
+
+.stats-link:hover {
+  background: #0f3460;
+  color: #fff;
+}
+
 /* Viking marker */
 .viking-marker {
   background: transparent;
