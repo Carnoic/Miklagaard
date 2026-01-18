@@ -238,7 +238,9 @@ function getLocalStorageEntries() {
 
 // Parse Google Sheets CSV
 async function fetchGoogleSheet(url) {
-  const response = await fetch(url);
+  // Add cache-busting parameter to avoid stale data
+  const cacheBuster = `&_t=${Date.now()}`;
+  const response = await fetch(url + cacheBuster, { cache: 'no-store' });
   const csvText = await response.text();
 
   const lines = csvText.trim().split("\n");
