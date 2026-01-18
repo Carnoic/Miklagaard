@@ -6,7 +6,9 @@
       "Bash(git config:*)",
       "Bash(git branch:*)",
       "Bash(git push:*)",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:doc-10-b8-sheets.googleusercontent.com)"
     ]
   }
 }

@@ -1,8 +1,7 @@
 // Configuration
 const CONFIG = {
-  // Google Sheets published CSV URL (set your own)
-  // Format: https://docs.google.com/spreadsheets/d/e/SHEET_ID/pub?output=csv
-  googleSheetUrl: null,
+  // Google Sheets published CSV URL
+  googleSheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT6CFJ6sSsUE0KpwpI7yHuzaCNzmrkJ0qEj86YLJjm6d8og6TYwJbvq9mwtj0EEHYDCoCoZDA1SzC1l/pub?output=csv',
 
   // Local fallback
   localDataUrl: "data/rows.sample.json",

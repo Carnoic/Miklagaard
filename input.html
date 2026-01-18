@@ -109,6 +109,11 @@
       transform: scale(0.98);
     }
 
+    button:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+
     .success-message {
       background: rgba(46, 204, 113, 0.2);
       border: 1px solid #2ecc71;
@@ -125,98 +130,90 @@
       animation: fadeIn 0.3s ease;
     }
 
+    .error-message {
+      background: rgba(233, 69, 96, 0.2);
+      border: 1px solid #e94560;
+      color: #e94560;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .recent-entries {
-      list-style: none;
-    }
-
-    .entry-item {
-      background: #0f3460;
-      border-radius: 6px;
-      padding: 0.75rem 1rem;
-      margin-bottom: 0.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .entry-date {
-      font-size: 0.85rem;
-      color: #888;
-    }
-
-    .entry-meters {
-      font-weight: 600;
-      color: #e94560;
-    }
-
-    .entry-note {
-      font-size: 0.75rem;
-      color: #aaa;
-      font-style: italic;
-    }
-
-    .entry-info {
-      flex: 1;
-    }
-
-    .entry-delete {
-      background: none;
-      border: none;
-      color: #666;
-      cursor: pointer;
-      padding: 0.5rem;
-      width: auto;
-      font-size: 1.2rem;
-    }
-
-    .entry-delete:hover {
-      color: #e94560;
-    }
-
-    .empty-state {
-      text-align: center;
-      color: #666;
-      padding: 2rem;
-    }
-
-    .stats-row {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .stat-box {
-      flex: 1;
-      background: #0f3460;
-      border-radius: 8px;
+    .info-box {
+      background: rgba(52, 152, 219, 0.1);
+      border: 1px solid #3498db;
+      color: #3498db;
       padding: 1rem;
-      text-align: center;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      line-height: 1.5;
     }
 
-    .stat-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #e94560;
+    .info-box a {
+      color: #5dade2;
     }
 
-    .stat-label {
+    .setup-steps {
+      list-style: none;
+      counter-reset: steps;
+    }
+
+    .setup-steps li {
+      counter-increment: steps;
+      padding: 0.5rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .setup-steps li::before {
+      content: counter(steps);
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      background: #e94560;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 0.75rem;
-      color: #888;
-      text-transform: uppercase;
+      font-weight: bold;
     }
 
-    .export-btn {
-      background: #0f3460;
-      margin-top: 0.5rem;
+    .config-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
     }
 
-    .export-btn:hover {
-      background: #1a4a7a;
+    .config-status.ready {
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+    }
+
+    .config-status.not-ready {
+      background: rgba(241, 196, 15, 0.1);
+      color: #f1c40f;
+    }
+
+    .hidden-iframe {
+      display: none;
     }
   </style>
 </head>
@@ -227,11 +224,20 @@
       <a href="index.html">← Tillbaka till kartan</a>
     </header>
 
-    <div class="success-message" id="success-message">
-      Pass tillagt!
+    <div class="config-status" id="config-status">
+      <span id="status-icon">⏳</span>
+      <span id="status-text">Kontrollerar konfiguration...</span>
     </div>
 
-    <div class="card">
+    <div class="success-message" id="success-message">
+      ✓ Pass sparat till Google Sheets!
+    </div>
+
+    <div class="error-message" id="error-message">
+      Kunde inte spara. Kontrollera konfigurationen.
+    </div>
+
+    <div class="card" id="form-card">
       <h2>Nytt pass</h2>
       <form id="add-form">
         <div class="form-group">
@@ -246,164 +252,160 @@
           <label for="note">Anteckning (valfritt)</label>
           <input type="text" id="note" placeholder="t.ex. Bra tempo!">
         </div>
-        <button type="submit">Lägg till</button>
+        <button type="submit" id="submit-btn">Lägg till</button>
       </form>
     </div>
 
-    <div class="card">
-      <h2>Lokalt sparade pass</h2>
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-value" id="local-count">0</div>
-          <div class="stat-label">Pass</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value" id="local-km">0</div>
-          <div class="stat-label">km</div>
-        </div>
-      </div>
-      <ul class="recent-entries" id="entries-list">
-        <li class="empty-state">Inga lokalt sparade pass</li>
-      </ul>
-      <button class="export-btn" id="export-btn" style="display:none;">Kopiera till urklipp (CSV)</button>
+    <div class="card" id="setup-card" style="display: none;">
+      <h2>⚙️ Konfiguration krävs</h2>
+      <p style="color: #aaa; margin-bottom: 1rem; font-size: 0.9rem;">
+        För att spara pass behöver du koppla ett Google Formulär:
+      </p>
+      <ol class="setup-steps">
+        <li>Skapa ett <a href="https://forms.google.com" target="_blank">Google Formulär</a> med frågor: Datum, Meter, Anteckning</li>
+        <li>Klicka på "Svar" → "Koppla till Kalkylark"</li>
+        <li>Publicera kalkylarket: Arkiv → Dela → Publicera (CSV)</li>
+        <li>Hämta formulärets entry-ID:n (se README)</li>
+        <li>Uppdatera CONFIG i input.html</li>
+      </ol>
     </div>
+
+    <!-- Hidden iframe for form submission -->
+    <iframe name="hidden_iframe" id="hidden_iframe" class="hidden-iframe"></iframe>
   </div>
 
   <script>
-    const STORAGE_KEY = 'miklagaard_local_rows';
+    // ===========================================
+    // KONFIGURATION - Fyll i dina värden här!
+    // ===========================================
+    const CONFIG = {
+      // Google Form action URL (från formulärets HTML)
+      // Format: https://docs.google.com/forms/d/e/FORM_ID/formResponse
+      formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdN4MaokB42MFC1RqCjvHdRYK5UUMdgUfPD1WNVP3vRerIh0A/formResponse',
 
-    // Get local entries from localStorage
-    function getLocalEntries() {
-      const data = localStorage.getItem(STORAGE_KEY);
-      return data ? JSON.parse(data) : [];
-    }
-
-    // Save entries to localStorage
-    function saveLocalEntries(entries) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-    }
-
-    // Format date for display
-    function formatDate(dateStr) {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString('sv-SE', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
-    }
-
-    // Render entries list
-    function renderEntries() {
-      const entries = getLocalEntries();
-      const list = document.getElementById('entries-list');
-      const exportBtn = document.getElementById('export-btn');
-      const countEl = document.getElementById('local-count');
-      const kmEl = document.getElementById('local-km');
-
-      // Update stats
-      countEl.textContent = entries.length;
-      const totalKm = entries.reduce((sum, e) => sum + (e.meters || 0), 0) / 1000;
-      kmEl.textContent = totalKm.toFixed(1);
-
-      if (entries.length === 0) {
-        list.innerHTML = '<li class="empty-state">Inga lokalt sparade pass</li>';
-        exportBtn.style.display = 'none';
-        return;
+      // Entry IDs för varje fält (hämtas från formulärets HTML)
+      entryIds: {
+        date: 'entry.1970498796',
+        meters: 'entry.1498707746',
+        note: 'entry.715498034'
       }
+    };
+    // ===========================================
 
-      exportBtn.style.display = 'block';
+    const isConfigured = CONFIG.formUrl && CONFIG.formUrl.includes('docs.google.com/forms');
 
-      // Sort by date descending
-      const sorted = [...entries].sort((a, b) => new Date(b.date) - new Date(a.date));
-
-      list.innerHTML = sorted.map((entry, index) => {
-        const km = (entry.meters / 1000).toFixed(1);
-        const originalIndex = entries.findIndex(e => e.date === entry.date && e.meters === entry.meters);
-        return `
-          <li class="entry-item">
-            <div class="entry-info">
-              <div class="entry-date">${formatDate(entry.date)}</div>
-              ${entry.note ? `<div class="entry-note">${entry.note}</div>` : ''}
-            </div>
-            <div class="entry-meters">${km} km</div>
-            <button class="entry-delete" onclick="deleteEntry(${originalIndex})" title="Ta bort">×</button>
-          </li>
-        `;
-      }).join('');
-    }
-
-    // Add new entry
-    function addEntry(date, meters, note) {
-      const entries = getLocalEntries();
-      const entry = { date, meters: parseInt(meters, 10) };
-      if (note && note.trim()) {
-        entry.note = note.trim();
-      }
-      entries.push(entry);
-      saveLocalEntries(entries);
-      renderEntries();
-    }
-
-    // Delete entry
-    function deleteEntry(index) {
-      const entries = getLocalEntries();
-      entries.splice(index, 1);
-      saveLocalEntries(entries);
-      renderEntries();
-    }
-
-    // Export to CSV
-    function exportToCSV() {
-      const entries = getLocalEntries();
-      if (entries.length === 0) return;
-
-      const csv = entries.map(e => {
-        const note = e.note ? `"${e.note.replace(/"/g, '""')}"` : '';
-        return `${e.date},${e.meters},${note}`;
-      }).join('\n');
-
-      const header = 'date,meters,note\n';
-      navigator.clipboard.writeText(header + csv).then(() => {
-        alert('Kopierat till urklipp! Klistra in i Google Sheets.');
-      });
-    }
-
-    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       // Set default date to today
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('date').value = today;
 
-      // Render existing entries
-      renderEntries();
+      // Check configuration
+      updateConfigStatus();
 
       // Form submission
-      document.getElementById('add-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const date = document.getElementById('date').value;
-        const meters = document.getElementById('meters').value;
-        const note = document.getElementById('note').value;
+      document.getElementById('add-form').addEventListener('submit', handleSubmit);
 
-        addEntry(date, meters, note);
-
-        // Show success message
-        const msg = document.getElementById('success-message');
-        msg.classList.add('show');
-        setTimeout(() => msg.classList.remove('show'), 2000);
-
-        // Reset form (keep date)
-        document.getElementById('meters').value = '';
-        document.getElementById('note').value = '';
-        document.getElementById('meters').focus();
-      });
-
-      // Export button
-      document.getElementById('export-btn').addEventListener('click', exportToCSV);
+      // Listen for iframe load (indicates form submitted)
+      document.getElementById('hidden_iframe').addEventListener('load', handleIframeLoad);
     });
 
-    // Make deleteEntry available globally
-    window.deleteEntry = deleteEntry;
+    function updateConfigStatus() {
+      const statusEl = document.getElementById('config-status');
+      const iconEl = document.getElementById('status-icon');
+      const textEl = document.getElementById('status-text');
+      const formCard = document.getElementById('form-card');
+      const setupCard = document.getElementById('setup-card');
+
+      if (isConfigured) {
+        statusEl.className = 'config-status ready';
+        iconEl.textContent = '✓';
+        textEl.textContent = 'Kopplad till Google Sheets';
+        formCard.style.display = 'block';
+        setupCard.style.display = 'none';
+      } else {
+        statusEl.className = 'config-status not-ready';
+        iconEl.textContent = '⚠';
+        textEl.textContent = 'Google Formulär ej konfigurerat';
+        formCard.style.display = 'none';
+        setupCard.style.display = 'block';
+      }
+    }
+
+    let formSubmitting = false;
+
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      if (!isConfigured) {
+        alert('Konfigurera Google Formulär först!');
+        return;
+      }
+
+      const date = document.getElementById('date').value;
+      const meters = document.getElementById('meters').value;
+      const note = document.getElementById('note').value;
+
+      // Build form data
+      const formData = new FormData();
+      formData.append(CONFIG.entryIds.date, date);
+      formData.append(CONFIG.entryIds.meters, meters);
+      formData.append(CONFIG.entryIds.note, note || '');
+
+      // Submit via hidden iframe to avoid redirect
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = CONFIG.formUrl;
+      form.target = 'hidden_iframe';
+
+      for (const [key, value] of formData.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+      }
+
+      document.body.appendChild(form);
+      formSubmitting = true;
+      document.getElementById('submit-btn').disabled = true;
+      document.getElementById('submit-btn').textContent = 'Sparar...';
+      form.submit();
+      document.body.removeChild(form);
+
+      // Also save to localStorage for immediate feedback
+      saveToLocalStorage(date, meters, note);
+    }
+
+    function handleIframeLoad() {
+      if (!formSubmitting) return;
+      formSubmitting = false;
+
+      // Show success
+      const successMsg = document.getElementById('success-message');
+      successMsg.classList.add('show');
+      setTimeout(() => successMsg.classList.remove('show'), 3000);
+
+      // Reset form
+      document.getElementById('meters').value = '';
+      document.getElementById('note').value = '';
+      document.getElementById('submit-btn').disabled = false;
+      document.getElementById('submit-btn').textContent = 'Lägg till';
+      document.getElementById('meters').focus();
+    }
+
+    function saveToLocalStorage(date, meters, note) {
+      try {
+        const key = 'miklagaard_local_rows';
+        const data = localStorage.getItem(key);
+        const entries = data ? JSON.parse(data) : [];
+        const entry = { date, meters: parseInt(meters, 10) };
+        if (note) entry.note = note;
+        entries.push(entry);
+        localStorage.setItem(key, JSON.stringify(entries));
+      } catch (e) {
+        console.warn('Could not save to localStorage');
+      }
+    }
   </script>
 </body>
 </html>
