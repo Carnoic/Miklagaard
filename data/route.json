@@ -20,7 +20,6 @@
 
     { "name": "Nevas mynning", "lat": 59.9425, "lon": 30.2167, "cum_km": 1050, "info": "Ingång till Nevafloden mot Ladoga. Nära dagens Sankt Petersburg." },
     { "name": "Sankt Petersburg (Neva)", "lat": 59.9200, "lon": 30.3800, "cum_km": 1075, "info": "Nevafloden böjer sydöst genom floddeltats öar innan den svänger mot Ladoga." },
-    { "name": "Ust-Tosno", "lat": 59.7800, "lon": 30.7200, "cum_km": 1092, "info": "Där Reka Tosna mynnar ut i Neva söderifrån. Naturlig rastplats längs flodens sydostliga sträckning." },
     { "name": "Nevski Porog", "lat": 59.7662, "lon": 30.7537, "cum_km": 1105, "info": "Nevski Porog - forsar längs Neva öster om S:t Petersburg, floden svänger här nordöst mot Ladoga." },
     { "name": "Shlisselburg", "lat": 59.9500, "lon": 31.0333, "cum_km": 1125, "info": "Nöteborg - där Neva lämnar Ladoga. Strategisk vikingafästning vid inloppet till sjön." },
     { "name": "Ladoga (korsning)", "lat": 60.2374, "lon": 31.8888, "cum_km": 1150, "info": "Rutten rundar uddens norra spets längs Ladogas sydkust på väg mot Volchovs mynning." },
