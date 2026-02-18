@@ -50,11 +50,20 @@
     { "name": "Tokarevo", "lat": 56.7877, "lon": 30.6532, "cum_km": 1640, "info": "Längs Lovat söderut." },
     { "name": "Lovat-sele", "lat": 56.7313, "lon": 30.6153, "cum_km": 1650, "info": "Längs Lovat söderut." },
     { "name": "Kerpessa", "lat": 56.6852, "lon": 30.6430, "cum_km": 1658, "info": "Längs Lovat – portaget mot Dnepr närmar sig." },
+    { "name": "Gubany", "lat": 56.6124, "lon": 30.6455, "cum_km": 1666, "info": "Längs Lovat söderut." },
+    { "name": "Khoruzhevo", "lat": 56.5898, "lon": 30.6189, "cum_km": 1671, "info": "Längs Lovat söderut." },
+    { "name": "Kostrovo", "lat": 56.5571, "lon": 30.6101, "cum_km": 1677, "info": "Längs Lovat söderut." },
+    { "name": "Kashevitsy", "lat": 56.5382, "lon": 30.5878, "cum_km": 1682, "info": "Längs Lovat söderut." },
+    { "name": "Lovat-vadning", "lat": 56.5212, "lon": 30.5991, "cum_km": 1687, "info": "Vadningsplats längs Lovat." },
+    { "name": "Smychek", "lat": 56.5011, "lon": 30.6095, "cum_km": 1692, "info": "Längs Lovat söderut." },
+    { "name": "Vlaskovo", "lat": 56.4745, "lon": 30.6002, "cum_km": 1698, "info": "Längs Lovat söderut." },
+    { "name": "Udray/Lovat", "lat": 56.4665, "lon": 30.5500, "cum_km": 1702, "info": "Udrayfloden ansluter till Lovat." },
+    { "name": "Kulov", "lat": 56.3454, "lon": 30.5143, "cum_km": 1715, "info": "Längs Lovat söderut mot portaget." },
     { "name": "Gnezdovo", "lat": 54.7833, "lon": 31.8833, "cum_km": 1750, "info": "Stor varjagisk handelsplats vid Dnepr, 3500+ gravhögar. Ett av Europas största vikingatida fyndställen." },
     { "name": "Smolensk", "lat": 54.7826, "lon": 32.0453, "cum_km": 1780, "info": "Övertog Gnezdovos roll på 1000-talet. Strategisk plats vid övre Dnepr." },
 
     { "name": "Ljubetj", "lat": 51.7167, "lon": 30.6500, "cum_km": 2050, "info": "Liubech - viktig stad längs Dnepr, nämnd i bysantinska källor." },
-    { "name": "Tjernihiv", "lat": 51.4939, "lon": 31.2947, "cum_km": 2120, "info": "Chernihiv - stor stad med skandinaviska gravfynd, viktig anhalt före Kiev." },
+
     { "name": "Vyshorod", "lat": 50.5833, "lon": 30.4833, "cum_km": 2230, "info": "Vyshhorod - befäst stad strax norr om Kiev." },
     { "name": "Kiev", "lat": 50.4501, "lon": 30.5234, "cum_km": 2280, "info": "Kænugarðr - huvudstad i Kievrus, grundad av varjager. Här samlades flottan för färden söderut i juni." },
 
