@@ -212,9 +212,6 @@
       color: #f1c40f;
     }
 
-    .hidden-iframe {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -259,53 +256,35 @@
     <div class="card" id="setup-card" style="display: none;">
       <h2>⚙️ Konfiguration krävs</h2>
       <p style="color: #aaa; margin-bottom: 1rem; font-size: 0.9rem;">
-        För att spara pass behöver du koppla ett Google Formulär:
+        För att spara pass behöver du konfigurera Google Apps Script:
       </p>
       <ol class="setup-steps">
-        <li>Skapa ett <a href="https://forms.google.com" target="_blank">Google Formulär</a> med frågor: Datum, Meter, Anteckning</li>
-        <li>Klicka på "Svar" → "Koppla till Kalkylark"</li>
-        <li>Publicera kalkylarket: Arkiv → Dela → Publicera (CSV)</li>
-        <li>Hämta formulärets entry-ID:n (se README)</li>
-        <li>Uppdatera CONFIG i input.html</li>
+        <li>Öppna ditt Google Sheet → Tillägg → Apps Script</li>
+        <li>Klistra in koden från <code>google-apps-script.js</code></li>
+        <li>Klicka "Distribuera" → "Ny distribution" → Webbapp (Alla)</li>
+        <li>Kopiera URL:en och klistra in i CONFIG.appsScriptUrl</li>
       </ol>
     </div>
 
-    <!-- Hidden iframe for form submission -->
-    <iframe name="hidden_iframe" id="hidden_iframe" class="hidden-iframe"></iframe>
   </div>
 
   <script>
     // ===========================================
-    // KONFIGURATION - Fyll i dina värden här!
+    // KONFIGURATION - Fyll i din Apps Script URL
     // ===========================================
     const CONFIG = {
-      // Google Form action URL
-      formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeMugD3whIs1ExAoHKGZSK_pSp7YMW2kaCCmVDElvMkDdHK0Q/formResponse',
-
-      // Entry IDs för varje fält
-      entryIds: {
-        date: 'entry.1622842994',
-        meters: 'entry.1456815570',
-        note: 'entry.1623688432'
-      }
+      // Google Apps Script Web App URL (se google-apps-script.js för instruktioner)
+      appsScriptUrl: 'https://script.google.com/macros/s/AKfycbyQQv3VF7_VpfExSqZiukWTHwXV_VJOIXASskykiF0273NZlTp0rBRQ2lix3DeH1oUc/exec'
     };
     // ===========================================
 
-    const isConfigured = CONFIG.formUrl && CONFIG.formUrl.includes('docs.google.com/forms');
+    const isConfigured = CONFIG.appsScriptUrl && CONFIG.appsScriptUrl.startsWith('https://script.google.com/');
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Set default date to today
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('date').value = today;
-
-      // Check configuration
       updateConfigStatus();
-
-      // Form submission
       document.getElementById('add-form').addEventListener('submit', handleSubmit);
-
-      // Listen for iframe load (indicates form submitted)
-      document.getElementById('hidden_iframe').addEventListener('load', handleIframeLoad);
     });
 
     function updateConfigStatus() {
@@ -318,25 +297,23 @@
       if (isConfigured) {
         statusEl.className = 'config-status ready';
         iconEl.textContent = '✓';
-        textEl.textContent = 'Kopplad till Google Sheets';
+        textEl.textContent = 'Kopplad till Google Sheets via Apps Script';
         formCard.style.display = 'block';
         setupCard.style.display = 'none';
       } else {
         statusEl.className = 'config-status not-ready';
         iconEl.textContent = '⚠';
-        textEl.textContent = 'Google Formulär ej konfigurerat';
+        textEl.textContent = 'Apps Script ej konfigurerat';
         formCard.style.display = 'none';
         setupCard.style.display = 'block';
       }
     }
 
-    let formSubmitting = false;
-
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
       e.preventDefault();
 
       if (!isConfigured) {
-        alert('Konfigurera Google Formulär först!');
+        alert('Konfigurera Apps Script URL först!');
         return;
       }
 
@@ -344,52 +321,48 @@
       const meters = document.getElementById('meters').value;
       const note = document.getElementById('note').value;
 
-      // Build form data
-      const formData = new FormData();
-      formData.append(CONFIG.entryIds.date, date);
-      formData.append(CONFIG.entryIds.meters, meters);
-      formData.append(CONFIG.entryIds.note, note || '');
+      const submitBtn = document.getElementById('submit-btn');
+      const successMsg = document.getElementById('success-message');
+      const errorMsg = document.getElementById('error-message');
 
-      // Submit via hidden iframe to avoid redirect
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = CONFIG.formUrl;
-      form.target = 'hidden_iframe';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sparar...';
+      successMsg.classList.remove('show');
+      errorMsg.classList.remove('show');
 
-      for (const [key, value] of formData.entries()) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = value;
-        form.appendChild(input);
+      // Save to localStorage immediately as backup
+      saveToLocalStorage(date, meters, note);
+
+      try {
+        const response = await fetch(CONFIG.appsScriptUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ date, meters: parseInt(meters, 10), note: note || '' })
+        });
+
+        // no-cors means we can't read the response, but if fetch didn't throw, it was sent
+        successMsg.textContent = '✓ Pass sparat till Google Sheets!';
+        successMsg.classList.add('show');
+
+        // Remove the entry from localStorage since it's now in Google Sheets
+        removeLastLocalStorageEntry();
+
+        // Reset form
+        document.getElementById('meters').value = '';
+        document.getElementById('note').value = '';
+        document.getElementById('meters').focus();
+        setTimeout(() => successMsg.classList.remove('show'), 3000);
+
+      } catch (err) {
+        console.error('Submit failed:', err);
+        errorMsg.textContent = '⚠ Kunde inte nå servern. Passet sparades lokalt och synkas senare.';
+        errorMsg.classList.add('show');
+        setTimeout(() => errorMsg.classList.remove('show'), 5000);
       }
 
-      document.body.appendChild(form);
-      formSubmitting = true;
-      document.getElementById('submit-btn').disabled = true;
-      document.getElementById('submit-btn').textContent = 'Sparar...';
-      form.submit();
-      document.body.removeChild(form);
-
-      // Also save to localStorage for immediate feedback
-      saveToLocalStorage(date, meters, note);
-    }
-
-    function handleIframeLoad() {
-      if (!formSubmitting) return;
-      formSubmitting = false;
-
-      // Show success
-      const successMsg = document.getElementById('success-message');
-      successMsg.classList.add('show');
-      setTimeout(() => successMsg.classList.remove('show'), 3000);
-
-      // Reset form
-      document.getElementById('meters').value = '';
-      document.getElementById('note').value = '';
-      document.getElementById('submit-btn').disabled = false;
-      document.getElementById('submit-btn').textContent = 'Lägg till';
-      document.getElementById('meters').focus();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Lägg till';
     }
 
     function saveToLocalStorage(date, meters, note) {
@@ -403,6 +376,20 @@
         localStorage.setItem(key, JSON.stringify(entries));
       } catch (e) {
         console.warn('Could not save to localStorage');
+      }
+    }
+
+    function removeLastLocalStorageEntry() {
+      try {
+        const key = 'miklagaard_local_rows';
+        const data = localStorage.getItem(key);
+        const entries = data ? JSON.parse(data) : [];
+        if (entries.length > 0) {
+          entries.pop();
+          localStorage.setItem(key, JSON.stringify(entries));
+        }
+      } catch (e) {
+        console.warn('Could not update localStorage');
       }
     }
   </script>

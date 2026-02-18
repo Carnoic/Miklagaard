@@ -1,6 +1,9 @@
 // Configuration
 const CONFIG = {
-  // Google Sheets published CSV URL
+  // Google Apps Script Web App URL (primary data source)
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbyQQv3VF7_VpfExSqZiukWTHwXV_VJOIXASskykiF0273NZlTp0rBRQ2lix3DeH1oUc/exec',
+
+  // Google Sheets published CSV URL (fallback)
   googleSheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT6CFJ6sSsUE0KpwpI7yHuzaCNzmrkJ0qEj86YLJjm6d8og6TYwJbvq9mwtj0EEHYDCoCoZDA1SzC1l/pub?output=csv',
 
   // Local fallback
@@ -183,24 +186,37 @@ function updateRouteLines(totalKm) {
   }
 }
 
-// Load rowing data from Google Sheets or local fallback
+// Load rowing data: Apps Script → Google Sheets CSV → local fallback
 async function loadRowingData() {
   let baseData = [];
 
-  // Try Google Sheets first
-  if (CONFIG.googleSheetUrl) {
+  // Try Apps Script first (returns JSON directly)
+  if (CONFIG.appsScriptUrl && CONFIG.appsScriptUrl.startsWith('https://script.google.com/')) {
+    try {
+      const data = await fetchAppsScript(CONFIG.appsScriptUrl);
+      if (data && data.length > 0) {
+        baseData = data;
+        dataSource = "Apps Script";
+      }
+    } catch (error) {
+      console.warn("Apps Script failed, trying Google Sheets CSV:", error);
+    }
+  }
+
+  // Fallback to Google Sheets CSV
+  if (baseData.length === 0 && CONFIG.googleSheetUrl) {
     try {
       const data = await fetchGoogleSheet(CONFIG.googleSheetUrl);
       if (data && data.length > 0) {
         baseData = data;
-        dataSource = "Google Sheets";
+        dataSource = "Google Sheets CSV";
       }
     } catch (error) {
-      console.warn("Google Sheets failed, trying local fallback:", error);
+      console.warn("Google Sheets CSV failed, trying local fallback:", error);
     }
   }
 
-  // Fallback to local JSON if no Google Sheets data
+  // Fallback to local JSON
   if (baseData.length === 0) {
     try {
       const response = await fetch(CONFIG.localDataUrl);
@@ -212,9 +228,27 @@ async function loadRowingData() {
     }
   }
 
-  // Merge with localStorage entries
+  // Merge with localStorage entries (avoid duplicates)
   const localEntries = getLocalStorageEntries();
-  if (localEntries.length > 0) {
+  if (localEntries.length > 0 && baseData.length > 0) {
+    // Remove local entries that already exist in remote data
+    const remoteKeys = new Set(baseData.map(e => `${e.date}_${e.meters}`));
+    const uniqueLocal = localEntries.filter(e => !remoteKeys.has(`${e.date}_${e.meters}`));
+
+    // Update localStorage to only keep unsynced entries
+    if (uniqueLocal.length !== localEntries.length) {
+      try {
+        localStorage.setItem('miklagaard_local_rows', JSON.stringify(uniqueLocal));
+      } catch (e) { /* ignore */ }
+    }
+
+    if (uniqueLocal.length > 0) {
+      rowingData = [...baseData, ...uniqueLocal];
+      dataSource += ` + ${uniqueLocal.length} lokala`;
+    } else {
+      rowingData = baseData;
+    }
+  } else if (localEntries.length > 0) {
     rowingData = [...baseData, ...localEntries];
     dataSource += ` + ${localEntries.length} lokala`;
   } else {
@@ -234,6 +268,24 @@ function getLocalStorageEntries() {
     console.error('Failed to read localStorage:', e);
     return [];
   }
+}
+
+// Fetch data from Google Apps Script Web App
+async function fetchAppsScript(url) {
+  const cacheBuster = `?_t=${Date.now()}`;
+  const response = await fetch(url + cacheBuster);
+  const data = await response.json();
+
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  // Validate that it's an array of entries
+  if (!Array.isArray(data)) {
+    throw new Error("Apps Script returned unexpected format");
+  }
+
+  return data;
 }
 
 // Parse Google Sheets CSV
