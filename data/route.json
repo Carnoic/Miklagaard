@@ -19,6 +19,8 @@
     { "name": "Kotka", "lat": 60.4667, "lon": 26.9458, "cum_km": 960, "info": "Finsk hamnstad vid Finska vikens östra del, nära Kymmeneälvens mynning." },
 
     { "name": "Nevas mynning", "lat": 59.9425, "lon": 30.2167, "cum_km": 1050, "info": "Ingång till Nevafloden mot Ladoga. Nära dagens Sankt Petersburg." },
+    { "name": "Sankt Petersburg (Neva)", "lat": 59.9200, "lon": 30.3800, "cum_km": 1075, "info": "Nevafloden böjer sydöst genom floddeltats öar innan den svänger mot Ladoga." },
+    { "name": "Shlisselburg", "lat": 59.9500, "lon": 31.0333, "cum_km": 1125, "info": "Nöteborg - där Neva lämnar Ladoga. Strategisk vikingafästning vid inloppet till sjön." },
     { "name": "Staraja Ladoga", "lat": 59.9978, "lon": 32.3006, "cum_km": 1180, "info": "Aldeigjuborg - grundad ~750, en av de äldsta skandinaviska bosättningarna i Rus. Viktig omlastningsplats vid Volchovs mynning." },
     { "name": "Rurikovo Gorodishche", "lat": 58.4900, "lon": 31.3000, "cum_km": 1330, "info": "Ruriks borg - 800-talets föregångare till Novgorod, på en ö i Volchov. Skandinaviska runfynd." },
     { "name": "Novgorod", "lat": 58.5215, "lon": 31.2694, "cum_km": 1370, "info": "Holmgård - grundat av Rurik ~860. Viktig knutpunkt där Volga- och Dneprrutterna möttes." },
