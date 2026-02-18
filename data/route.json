@@ -25,7 +25,8 @@
     { "name": "Ladoga (korsning)", "lat": 60.2374, "lon": 31.8888, "cum_km": 1150, "info": "Rutten rundar uddens norra spets längs Ladogas sydkust på väg mot Volchovs mynning." },
     { "name": "Novaya Ladoga", "lat": 60.1206, "lon": 32.3320, "cum_km": 1165, "info": "Volchovs mynning i Ladoga - här lämnar man sjön och börjar ro söderut uppströms längs Volchov." },
     { "name": "Staraja Ladoga", "lat": 59.9978, "lon": 32.3006, "cum_km": 1180, "info": "Aldeigjuborg - grundad ~750, en av de äldsta skandinaviska bosättningarna i Rus. Viktig omlastningsplats vid Volchovs mynning." },
-    { "name": "Volchov (mellanlopp)", "lat": 59.4500, "lon": 32.0100, "cum_km": 1255, "info": "Volchov-floden slingrar sig söderut mot Novgorod genom tät skog och träskmark." },
+    { "name": "Pomyalovo", "lat": 59.7696, "lon": 32.3485, "cum_km": 1215, "info": "Längs Volchovs östra strand söderut mot Kirishi." },
+    { "name": "Kirishi", "lat": 59.4500, "lon": 32.0100, "cum_km": 1255, "info": "Volchov-floden slingrar sig söderut mot Novgorod genom tät skog och träskmark." },
 { "name": "Novgorod", "lat": 58.5215, "lon": 31.2694, "cum_km": 1370, "info": "Holmgård - grundat av Rurik ~860. Viktig knutpunkt där Volga- och Dneprrutterna möttes." },
 
     { "name": "Ilmensjön", "lat": 58.2833, "lon": 31.3333, "cum_km": 1410, "info": "Stor sjö söder om Novgorod, Lovatflodens mynning." },
