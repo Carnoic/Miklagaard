@@ -16,6 +16,7 @@
     { "name": "Åbo (Turku)", "lat": 60.4518, "lon": 22.2666, "cum_km": 730, "info": "Finlands äldsta stad vid Aura ås mynning." },
     { "name": "Hanko", "lat": 59.8260, "lon": 22.9700, "cum_km": 800, "info": "Finlands sydligaste udde - naturlig avresehamn för korsningen av Finska viken mot Estland." },
     { "name": "Helsingfors (Helsinki)", "lat": 60.1699, "lon": 24.9384, "cum_km": 880, "info": "Finsk kuststad vid Finska viken, anhalt på vägen mot Nevafloden." },
+    { "name": "Kotka", "lat": 60.4667, "lon": 26.9458, "cum_km": 960, "info": "Finsk hamnstad vid Finska vikens östra del, nära Kymmeneälvens mynning." },
 
     { "name": "Nevas mynning", "lat": 59.9425, "lon": 30.2167, "cum_km": 1050, "info": "Ingång till Nevafloden mot Ladoga. Nära dagens Sankt Petersburg." },
     { "name": "Staraja Ladoga", "lat": 59.9978, "lon": 32.3006, "cum_km": 1180, "info": "Aldeigjuborg - grundad ~750, en av de äldsta skandinaviska bosättningarna i Rus. Viktig omlastningsplats vid Volchovs mynning." },
