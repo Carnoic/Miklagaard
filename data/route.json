@@ -23,7 +23,7 @@
     { "name": "Ust-Tosno", "lat": 59.7800, "lon": 30.7200, "cum_km": 1092, "info": "Där Reka Tosna mynnar ut i Neva söderifrån. Naturlig rastplats längs flodens sydostliga sträckning." },
     { "name": "Nevski Porog", "lat": 59.8500, "lon": 30.8833, "cum_km": 1105, "info": "Nevski Porog - forsar längs Neva öster om S:t Petersburg, floden svänger här nordöst mot Ladoga." },
     { "name": "Shlisselburg", "lat": 59.9500, "lon": 31.0333, "cum_km": 1125, "info": "Nöteborg - där Neva lämnar Ladoga. Strategisk vikingafästning vid inloppet till sjön." },
-    { "name": "Ladoga (korsning)", "lat": 60.0200, "lon": 31.6800, "cum_km": 1145, "info": "Korsning av södra Ladoga österut mot Volchovs mynning." },
+    { "name": "Ladoga (korsning)", "lat": 60.2374, "lon": 31.8888, "cum_km": 1150, "info": "Rutten rundar uddens norra spets längs Ladogas sydkust på väg mot Volchovs mynning." },
     { "name": "Novaya Ladoga", "lat": 60.1000, "lon": 32.2700, "cum_km": 1165, "info": "Volchovs mynning i Ladoga - här lämnar man sjön och börjar ro söderut uppströms längs Volchov." },
     { "name": "Staraja Ladoga", "lat": 59.9978, "lon": 32.3006, "cum_km": 1180, "info": "Aldeigjuborg - grundad ~750, en av de äldsta skandinaviska bosättningarna i Rus. Viktig omlastningsplats vid Volchovs mynning." },
     { "name": "Volchov (mellanlopp)", "lat": 59.4500, "lon": 32.0100, "cum_km": 1255, "info": "Volchov-floden slingrar sig söderut mot Novgorod genom tät skog och träskmark." },
