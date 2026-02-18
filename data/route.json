@@ -23,7 +23,7 @@
     { "name": "Nevski Porog", "lat": 59.7662, "lon": 30.7537, "cum_km": 1105, "info": "Nevski Porog - forsar längs Neva öster om S:t Petersburg, floden svänger här nordöst mot Ladoga." },
     { "name": "Shlisselburg", "lat": 59.9500, "lon": 31.0333, "cum_km": 1125, "info": "Nöteborg - där Neva lämnar Ladoga. Strategisk vikingafästning vid inloppet till sjön." },
     { "name": "Ladoga (korsning)", "lat": 60.2374, "lon": 31.8888, "cum_km": 1150, "info": "Rutten rundar uddens norra spets längs Ladogas sydkust på väg mot Volchovs mynning." },
-    { "name": "Novaya Ladoga", "lat": 60.1000, "lon": 32.2700, "cum_km": 1165, "info": "Volchovs mynning i Ladoga - här lämnar man sjön och börjar ro söderut uppströms längs Volchov." },
+    { "name": "Novaya Ladoga", "lat": 60.1206, "lon": 32.3320, "cum_km": 1165, "info": "Volchovs mynning i Ladoga - här lämnar man sjön och börjar ro söderut uppströms längs Volchov." },
     { "name": "Staraja Ladoga", "lat": 59.9978, "lon": 32.3006, "cum_km": 1180, "info": "Aldeigjuborg - grundad ~750, en av de äldsta skandinaviska bosättningarna i Rus. Viktig omlastningsplats vid Volchovs mynning." },
     { "name": "Volchov (mellanlopp)", "lat": 59.4500, "lon": 32.0100, "cum_km": 1255, "info": "Volchov-floden slingrar sig söderut mot Novgorod genom tät skog och träskmark." },
 { "name": "Novgorod", "lat": 58.5215, "lon": 31.2694, "cum_km": 1370, "info": "Holmgård - grundat av Rurik ~860. Viktig knutpunkt där Volga- och Dneprrutterna möttes." },
