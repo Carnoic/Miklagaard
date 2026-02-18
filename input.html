@@ -334,14 +334,18 @@
       saveToLocalStorage(date, meters, note);
 
       try {
-        const response = await fetch(CONFIG.appsScriptUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({ date, meters: parseInt(meters, 10), note: note || '' })
+        const params = new URLSearchParams({
+          action: 'add',
+          date,
+          meters: parseInt(meters, 10),
+          note: note || ''
         });
 
-        // no-cors means we can't read the response, but if fetch didn't throw, it was sent
+        const response = await fetch(`${CONFIG.appsScriptUrl}?${params}`);
+        const result = await response.json();
+
+        if (result.error) throw new Error(result.error);
+
         successMsg.textContent = '✓ Pass sparat till Google Sheets!';
         successMsg.classList.add('show');
 
